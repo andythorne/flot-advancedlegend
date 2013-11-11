@@ -1,5 +1,7 @@
 /*
- * jquery.flot.advancedlegend
+ * jquery.flot.tooltip
+ * 
+ * NOTE: THIS HAS NOTHING TO DO WITH https://github.com/krzysu/flot.tooltip
  */ 
 (function ($) {
 
@@ -61,7 +63,7 @@
     	
         var that = this;
 
-        plot.hooks.bindEvents.push(function (plot, eventHolder) {
+        plot.hooks.processOptions.push(function (plot, eventHolder) {
 
         	that.plot = plot;
         	
@@ -74,18 +76,18 @@
             // shortcut to access tooltip options
             that.options = that.plotOptions.advancedLegend;
 
-            // create tooltip DOM element
-            that.legend = that.getDomElement();
-        	that.updatePosition();
-
             // bind event
             //$( plot.getPlaceholder() ).bind("plothover", plothover);
  
         });
 
         plot.hooks.draw.push(function(plot, canvascontext){
-        	if(!that.legend) // there are no legends yet
-        		return;
+        	if(!that.legend){
+        		// there are no legends yet
+                // create tooltip DOM element
+                that.legend = that.getDomElement();
+            	that.updatePosition();
+        	} 
         	
         	var togglable = that.options.togglable;
         	
